@@ -1,6 +1,6 @@
 ### CODEFORCES Ranking APP
 
-![Image](<img width="442" alt="Another Awesome App" src="https://github.com/gabyah92/CodeforcesRankingGUI/assets/22296232/eba8fb68-9df6-46d3-8114-ceb9408114c9">)
+![Image](https://github.com/gabyah92/CodeforcesRankingGUI/assets/22296232/eba8fb68-9df6-46d3-8114-ceb9408114c9>)
 
 Hello everyone!
 
