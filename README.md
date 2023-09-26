@@ -6,7 +6,7 @@ Hello everyone!
 
 I have created this project overnight to scrape rankings from Codeforces for my batch in **CMRIT** and through my consultancy **Pyramid**.
 
-The first input box accepts tokens, which can be used to scrape codeforces handles by multiple tokens. Useful when scraping results for a set of people having the same token name in their handle. EX : CMRIT25_HallTicketNumber
+The first input box accepts tokens, which can be used to scrape codeforces handles by multiple tokens separated by Comma's. Useful when scraping results for a set of people having the same token name in their handle. EX : CMRIT25_HallTicketNumber.
 
 The Excel sheet will be generated in the same directory as the jar file, in a folder called Leaderboards.
 
