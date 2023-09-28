@@ -24,11 +24,11 @@ jobs:
           
       - name: Compile Project
         run: |
-          javac -d bin -cp "./CodeforcesRanking/lib/*" -Xlint:deprecation CodeforcesRanking/src/codeforcesranking/*.java
+          javac -d bin -cp "./CodeforcesRanking/dist/lib/*" -Xlint:deprecation CodeforcesRanking/src/codeforcesranking/*.java
 
       - name: Run CLI
         run: |
-          java -cp "./bin:./CodeforcesRanking/lib/*:./CodeforcesRanking/dist/lib/*" codeforcesranking.Main cmrit25 21r0
+          java -cp "./bin:./CodeforcesRanking/dist/lib/*:./CodeforcesRanking/dist/lib/*" codeforcesranking.Main cmrit25 21r0
 
       - name: Archive Generated File
         run: |
