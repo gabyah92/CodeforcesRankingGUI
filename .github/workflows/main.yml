@@ -1,0 +1,39 @@
+name: Run CodeforcesRanking CLI
+
+on:
+  schedule:
+    - cron: "0 0 * * 5" # Every Friday at 12 AM (UTC time)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Compile Project
+        run: |
+          cd CodeforcesRanking
+           javac -d bin -cp "./CodeforcesRanking/lib/*" -Xlint:deprecation CodeforcesRanking/src/codeforcesranking/*.java
+
+      - name: Run CLI
+        run: |
+          cd CodeforcesRanking
+          java -cp "./bin:./CodeforcesRanking/lib/*:./CodeforcesRanking/dist/lib/*" codeforcesranking.Main cmrit25 21r0
+
+      - name: Archive Generated File
+        run: |
+          mkdir -p ${{ github.workspace }}/Leaderboards
+          mv CodeforcesRanking/Leaderboards/CurrentCodeforcesRatings.xlsx ${{ github.workspace }}/Leaderboards
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Leaderboard
+          path: ${{ github.workspace }}/Leaderboards
