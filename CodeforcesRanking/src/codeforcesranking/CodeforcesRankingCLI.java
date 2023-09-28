@@ -5,6 +5,9 @@ import java.util.List;
 
 public class CodeforcesRankingCLI extends CodeforcesRanking {
     public static void handler(String[] args) {
+        
+        System.setProperty("java.awt.headless", "true");
+        
         CodeforcesRankingCLI cli = new CodeforcesRankingCLI();
 
         // if args are empty, print error message
