@@ -3,6 +3,9 @@ name: Run CodeforcesRanking CLI
 on:
   schedule:
     - cron: "0 0 * * 5" # Every Friday at 12 AM (UTC time)
+  push: # Add this trigger to run on commits
+    branches:
+      - main # You can specify the branch you want to trigger on
 
 jobs:
   build:
@@ -20,7 +23,7 @@ jobs:
       - name: Compile Project
         run: |
           cd CodeforcesRanking
-           javac -d bin -cp "./CodeforcesRanking/lib/*" -Xlint:deprecation CodeforcesRanking/src/codeforcesranking/*.java
+          javac -d bin -cp "./CodeforcesRanking/lib/*" -Xlint:deprecation CodeforcesRanking/src/codeforcesranking/*.java
 
       - name: Run CLI
         run: |
