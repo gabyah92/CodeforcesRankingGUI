@@ -3,9 +3,9 @@ name: Run CodeforcesRanking CLI
 on:
   schedule:
     - cron: "0 0 * * 5" # Every Friday at 12 AM (UTC time)
-  push: # Add this trigger to run on commits
+  push:
     branches:
-      - main # You can specify the branch you want to trigger on
+      - main
 
 jobs:
   build:
@@ -19,6 +19,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
+          distribution: 'openjdk' # Specify the distribution here, e.g., 'adopt', 'openjdk', 'zulu', etc.
 
       - name: Compile Project
         run: |
