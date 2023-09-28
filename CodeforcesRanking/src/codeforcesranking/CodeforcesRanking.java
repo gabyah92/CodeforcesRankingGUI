@@ -240,6 +240,11 @@ public class CodeforcesRanking extends javax.swing.JFrame {
                 if (generated == true) {
                     workbook.write(fileOut);
                     System.out.println("Excel file created successfully!");
+                    // check if CodeforcesRankingCLI is running
+                    if (CodeforcesRankingCLI.isRunningCLI()) {
+                        System.out.println("Exiting...");
+                        return;
+                    }
                     JOptionPane.showMessageDialog(null, "Generated! ", "Finished Generating Leaderboard!", JOptionPane.INFORMATION_MESSAGE);
                 }
                 // Close the workbook

@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CodeforcesRankingCLI extends CodeforcesRanking {
+
+    static boolean cliRun = false;
+
     public static void handler(String[] args) {
-        CodeforcesRankingCLI cli = new CodeforcesRankingCLI();
+
+        cliRun = true;
 
         // if args are empty, print error message
         if (args.length == 0) {
@@ -40,5 +44,9 @@ public class CodeforcesRankingCLI extends CodeforcesRanking {
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
+    }
+
+    static boolean isRunningCLI() {
+        return cliRun;
     }
 }
