@@ -32,11 +32,11 @@ jobs:
 
       - name: Archive Generated File
         run: |
-          mkdir -p ${{ github.workspace }}/Leaderboards
-          move .\CodeforcesRanking\Leaderboards\CurrentCodeforcesRatings.xlsx ${{ github.workspace }}/Leaderboards
+          mkdir -p ${{ github.workspace }}\LeaderboardsStorage
+          move .\CodeforcesRanking\Leaderboards\CurrentCodeforcesRatings.xlsx ${{ github.workspace }}\LeaderboardsStorage
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: Leaderboard
-          path: ${{ github.workspace }}/Leaderboards
+          path: ${{ github.workspace }}\Leaderboards
