@@ -9,31 +9,31 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
       - name: Set up JDK 11 for x64
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'temurin'
+          distribution: 'adopt' # Use 'adopt' distribution on Windows
           architecture: x64
           
       - name: Compile Project
         run: |
-          javac -d bin -cp "./CodeforcesRanking/dist/lib/*" -Xlint:deprecation CodeforcesRanking/src/codeforcesranking/*.java
+          javac -d bin -cp ".\CodeforcesRanking\dist\lib\*" -Xlint:deprecation .\CodeforcesRanking\src\codeforcesranking\*.java
 
       - name: Run CLI
         run: |
-          java -cp "./bin:./CodeforcesRanking/dist/lib/*:./CodeforcesRanking/dist/lib/*" codeforcesranking.Main cmrit25 21r0
+          java -cp ".\bin;.\CodeforcesRanking\dist\lib\*;.\CodeforcesRanking\dist\lib\*" codeforcesranking.Main cmrit25 21r0
 
       - name: Archive Generated File
         run: |
           mkdir -p ${{ github.workspace }}/Leaderboards
-          mv CodeforcesRanking/Leaderboards/CurrentCodeforcesRatings.xlsx ${{ github.workspace }}/Leaderboards
+          move .\CodeforcesRanking\Leaderboards\CurrentCodeforcesRatings.xlsx ${{ github.workspace }}/Leaderboards
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
