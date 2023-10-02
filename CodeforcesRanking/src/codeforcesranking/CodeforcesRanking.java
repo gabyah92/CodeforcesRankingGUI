@@ -134,6 +134,7 @@ public class CodeforcesRanking extends javax.swing.JFrame {
 
                     // Display the leaderboard in console
                     displayLeaderboard(curr_leaderboard);
+                    assert curr_leaderboard != null;
                     exportParticipantsToExcel((ArrayList<Participant>) curr_leaderboard);
 
                     // Close the "Please wait" dialog
@@ -239,6 +240,11 @@ public class CodeforcesRanking extends javax.swing.JFrame {
                 if (generated == true) {
                     workbook.write(fileOut);
                     System.out.println("Excel file created successfully!");
+                    // check if CodeforcesRankingCLI is running
+                    if (CodeforcesRankingCLI.isRunningCLI()) {
+                        System.out.println("Exiting...");
+                        return;
+                    }
                     JOptionPane.showMessageDialog(null, "Generated! ", "Finished Generating Leaderboard!", JOptionPane.INFORMATION_MESSAGE);
                 }
                 // Close the workbook
@@ -251,8 +257,8 @@ public class CodeforcesRanking extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    private List<Participant> downloadLeaderboard(String searchToken) throws Exception {
+
+    static List<Participant> downloadLeaderboard(String searchToken) throws Exception {
         String url = "https://codeforces.com/api/user.ratedList?activeOnly=false&includeRetired=false";
         JSONArray rows = null;
         try {
@@ -309,20 +315,20 @@ public class CodeforcesRanking extends javax.swing.JFrame {
         generated = true;
         return handlePointsList;
     }
-    
-    private List<Participant> filterLeaderboard(List<Participant> leaderboard) {
+
+    static List<Participant> filterLeaderboard(List<Participant> leaderboard) {
         return leaderboard; // Placeholder
     }
-    
-    private void sortLeaderboard(List<Participant> leaderboard) {
+
+    static void sortLeaderboard(List<Participant> leaderboard) {
         try {
             Collections.sort(leaderboard, (Participant p1, Participant p2) -> Integer.compare(p2.getRating(), p1.getRating()));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Invalid Input/Handle Does Not Exist!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    private void assignRanks(List<Participant> leaderboard) {
+
+    static void assignRanks(List<Participant> leaderboard) {
         try {
             for (int i = 0; i < leaderboard.size(); i++) {
                 leaderboard.get(i).setRank(i + 1);
@@ -332,56 +338,13 @@ public class CodeforcesRanking extends javax.swing.JFrame {
         }
     }
     
-    private void displayLeaderboard(List<Participant> leaderboard) {
+    static void displayLeaderboard(List<Participant> leaderboard) {
         try {
             for (Participant participant : leaderboard) {
                 System.out.println("Rank: " + participant.getRank() + ", Handle: " + participant.getHandle() + ", Rating: " + participant.getRating());
             }
         } catch (Exception E) {
             JOptionPane.showMessageDialog(null, "Invalid Input/Handle Does Not Exist!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    private class Participant {
-        
-        final private String handle;
-        private int rating;
-        private int rank;
-        
-        public Participant(String handle, int rating) {
-            this.handle = handle;
-            this.rating = rating;
-            this.rank = 0;
-        }
-        
-        public void setScore(int score) {
-            this.rating = score;
-        }
-        
-        public String getHandle() {
-            return handle;
-        }
-        
-        public int getRating() {
-            return rating;
-        }
-        
-        public int getRank() {
-            return rank;
-        }
-        
-        public void setRank(int rank) {
-            this.rank = rank;
-        }
-    }
-    
-    public static void main(String[] args) {
-        try {
-            SwingUtilities.invokeLater(() -> {
-                new CodeforcesRanking().setVisible(true);
-            });
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Something went wrong!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
