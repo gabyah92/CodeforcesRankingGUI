@@ -1,11 +1,9 @@
 name: Run CodeforcesRanking CLI
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 5" # Every Friday at 12 AM (UTC time)
-  push:
-    branches:
-      - main
+    - cron: "0 0 * * *"
 
 jobs:
   build:
@@ -21,7 +19,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt' # Use 'adopt' distribution on Windows
           architecture: x64
-          
+
       - name: Compile Project
         run: |
           javac -d bin -cp ".\CodeforcesRanking\dist\lib\*" -Xlint:deprecation .\CodeforcesRanking\src\codeforcesranking\*.java
@@ -34,6 +32,14 @@ jobs:
         run: |
           mkdir -p ${{ github.workspace }}\LeaderboardsStorage
           move .\CodeforcesRanking\Leaderboards\CurrentCodeforcesRatings.xlsx ${{ github.workspace }}\LeaderboardsStorage
+
+      - name: Commit Generated CSV File
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add ${{ github.workspace }}\Leaderboards\CurrentCodeforcesRatings.csv
+          git commit -m "Add generated leaderboard data"
+          git push
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2

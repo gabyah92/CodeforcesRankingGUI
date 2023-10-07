@@ -72,19 +72,11 @@ public class CodeforcesRankingCLI extends CodeforcesRanking {
                 }
 
                 System.out.println("CSV file created successfully!");
-                if (generated) {
-                    System.out.println("Generated!");
-                    if (CodeforcesRankingCLI.isRunningCLI()) {
-                        System.out.println("Exiting...");
-                        return;
-                    }
-                    JOptionPane.showMessageDialog(null, "Generated!", "Finished Generating Leaderboard!", JOptionPane.INFORMATION_MESSAGE);
-                }
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+                System.err.println("Something Went Wrong!");
             }
-        } catch (HeadlessException e) {
-            JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            System.err.println("Something Went Wrong!");
         }
     }
 
