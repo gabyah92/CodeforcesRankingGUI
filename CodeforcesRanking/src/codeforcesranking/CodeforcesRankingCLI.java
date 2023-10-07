@@ -37,6 +37,8 @@ public class CodeforcesRankingCLI extends CodeforcesRanking {
             System.out.println("Displaying leaderboard...");
             displayLeaderboard(currLeaderboard);
             exportParticipantsToExcel((ArrayList<Participant>) currLeaderboard);
+            // export participants to CSV
+            exportParticipantsToCSV((ArrayList<Participant>) currLeaderboard);
             // END
             System.out.println("Done!");
             // exit with code 0
@@ -49,4 +51,41 @@ public class CodeforcesRankingCLI extends CodeforcesRanking {
     static boolean isRunningCLI() {
         return cliRun;
     }
+
+    static void exportParticipantsToCSV(ArrayList<Participant> participants) {
+        try {
+            File folder = new File("Leaderboards");
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+
+            File outputFile = new File("Leaderboards/CurrentCodeforcesRatings.csv");
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
+                // Write CSV header
+                writer.write("Rank,Handle,Rating");
+                writer.newLine();
+
+                // Write participants' data
+                for (Participant participant : participants) {
+                    writer.write(participant.getRank() + "," + participant.getHandle() + "," + participant.getRating());
+                    writer.newLine();
+                }
+
+                System.out.println("CSV file created successfully!");
+                if (generated) {
+                    System.out.println("Generated!");
+                    if (CodeforcesRankingCLI.isRunningCLI()) {
+                        System.out.println("Exiting...");
+                        return;
+                    }
+                    JOptionPane.showMessageDialog(null, "Generated!", "Finished Generating Leaderboard!", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (HeadlessException e) {
+            JOptionPane.showMessageDialog(null, "Something Went Wrong!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }
