@@ -33,17 +33,20 @@ jobs:
           mkdir -p ${{ github.workspace }}\LeaderboardsStorage
           move .\CodeforcesRanking\Leaderboards\CurrentCodeforcesRatings.xlsx ${{ github.workspace }}\LeaderboardsStorage
 
+      - name: Remote Time
+        # You may pin to the exact commit or the version.
+        # uses: Plabick/Remote-Time-Action@3621a863d43a89838f2469fc31c679c6f695a132
+        uses: Plabick/Remote-Time-Action@1.01
+        with:
+        # The [timezone code](https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations) to recieve the current time in. Defaults to utc (+0)
+          timezone: 'IST' # optional, default is utc
+
       - name: Commit Generated CSV File
         run: |
-          # Set IST time zone offset
-          offset="+0530"
-          current_date_ist=$(date "+%Y-%m-%d %H:%M:%S $offset")
-      
-          # Commit the generated file with date and time in IST
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-          git add ${{ github.workspace }}/Leaderboards/CurrentCodeforcesRatings.csv
-          git commit -m "Add generated leaderboard data (${current_date_ist} IST)"
+          git add ${{ github.workspace }}\Leaderboards\CurrentCodeforcesRatings.csv
+          git commit -m "Add generated leaderboard data - ${{steps.time.outputs.epochTime}}"
           git push
 
 
