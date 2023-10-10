@@ -26,7 +26,7 @@ jobs:
 
       - name: Run CLI
         run: |
-          java -cp ".\bin;.\CodeforcesRanking\dist\lib\*;.\CodeforcesRanking\dist\lib\*" codeforcesranking.Main cmrit25 21r0
+          java -cp ".\bin;.\CodeforcesRanking\dist\lib\*;.\CodeforcesRanking\dist\lib\*" codeforcesranking.Main cmrit25 21r01 22r05a Manohar_Eldhandi Vishwatej4 yash_37 Sadanand26
 
       - name: Archive Generated File
         run: |
