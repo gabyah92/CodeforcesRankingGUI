@@ -16,11 +16,11 @@ jobs:
         uses: szenius/set-timezone@v1.2
         with:
           # Desired timezone for Linux
-          timezoneLinux: "Asia/Kolkata" # optional, default is UTC
+          timezoneLinux: "India Standard Time" # optional, default is UTC
           # Desired timezone for MacOS
-          timezoneMacos: "Asia/Kolkata" # optional, default is GMT
+          timezoneMacos: "India Standard Time" # optional, default is GMT
           # Desired timezone for Windows
-          timezoneWindows: "Asia/Kolkata" # optional, default is UTC
+          timezoneWindows: "India Standard Time" # optional, default is UTC
         
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -45,13 +45,16 @@ jobs:
           mkdir -p ${{ github.workspace }}\LeaderboardsStorage
           move .\CodeforcesRanking\Leaderboards\CurrentCodeforcesRatings.xlsx ${{ github.workspace }}\LeaderboardsStorage
 
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
       - name: Commit Generated CSV File
         run: |
-          TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           git add ${{ github.workspace }}\Leaderboards\CurrentCodeforcesRatings.csv
-          git commit -m "Add generated leaderboard data - $TIMESTAMP"
+          git commit -m "Add generated leaderboard data - ${{ steps.date.outputs.date }}"
           git push
 
 
