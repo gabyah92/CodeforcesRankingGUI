@@ -10,6 +10,18 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Set Timezone
+        # You may pin to the exact commit or the version.
+        # uses: szenius/set-timezone@ce9c440bc3af4f51b28d7ef7e5c47ee8f26c8dcb
+        uses: szenius/set-timezone@v1.2
+        with:
+          # Desired timezone for Linux
+          timezoneLinux: "Asia/Kolkata" # optional, default is UTC
+          # Desired timezone for MacOS
+          timezoneMacos: "Asia/Kolkata" # optional, default is GMT
+          # Desired timezone for Windows
+          timezoneWindows: "Asia/Kolkata" # optional, default is UTC
+        
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -33,20 +45,13 @@ jobs:
           mkdir -p ${{ github.workspace }}\LeaderboardsStorage
           move .\CodeforcesRanking\Leaderboards\CurrentCodeforcesRatings.xlsx ${{ github.workspace }}\LeaderboardsStorage
 
-      - name: Remote Time
-        # You may pin to the exact commit or the version.
-        # uses: Plabick/Remote-Time-Action@3621a863d43a89838f2469fc31c679c6f695a132
-        uses: Plabick/Remote-Time-Action@1.01
-        with:
-        # The [timezone code](https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations) to recieve the current time in. Defaults to utc (+0)
-          timezone: 'IST' # optional, default is utc
-
       - name: Commit Generated CSV File
         run: |
+          TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           git add ${{ github.workspace }}\Leaderboards\CurrentCodeforcesRatings.csv
-          git commit -m "Add generated leaderboard data - ${{steps.time.outputs.epochTime}}"
+          git commit -m "Add generated leaderboard data - $TIMESTAMP"
           git push
 
 
