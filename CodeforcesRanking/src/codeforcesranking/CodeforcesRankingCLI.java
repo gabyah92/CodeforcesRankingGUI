@@ -1,5 +1,9 @@
 package codeforcesranking;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +41,8 @@ public class CodeforcesRankingCLI extends CodeforcesRanking {
             System.out.println("Displaying leaderboard...");
             displayLeaderboard(currLeaderboard);
             exportParticipantsToExcel((ArrayList<Participant>) currLeaderboard);
+            // export participants to CSV
+            exportParticipantsToCSV((ArrayList<Participant>) currLeaderboard);
             // END
             System.out.println("Done!");
             // exit with code 0
@@ -49,4 +55,33 @@ public class CodeforcesRankingCLI extends CodeforcesRanking {
     static boolean isRunningCLI() {
         return cliRun;
     }
+
+    static void exportParticipantsToCSV(ArrayList<Participant> participants) {
+        try {
+            File folder = new File("Leaderboards");
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+
+            File outputFile = new File("Leaderboards/CurrentCodeforcesRatings.csv");
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
+                // Write CSV header
+                writer.write("Rank,Handle,Rating");
+                writer.newLine();
+
+                // Write participants' data
+                for (Participant participant : participants) {
+                    writer.write(participant.getRank() + "," + participant.getHandle() + "," + participant.getRating());
+                    writer.newLine();
+                }
+
+                System.out.println("CSV file created successfully!");
+            } catch (IOException e) {
+                System.err.println("Something Went Wrong!");
+            }
+        } catch (Exception e) {
+            System.err.println("Something Went Wrong!");
+        }
+    }
+
 }
